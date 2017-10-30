@@ -52,7 +52,7 @@ public class CharaController : MonoBehaviour {
 
 		}
 			
-		// ヒットエフェクト
+		//ヒットエフェクト
 		if (isGetHit) {
 			this.animator.SetTrigger ("getHitTrigger");
 			isGetHit = false;

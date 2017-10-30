@@ -448,7 +448,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4172845733282550}
   - component: {fileID: 54921327726096206}
-  - component: {fileID: 114754861008756806}
   - component: {fileID: 136056204737280082}
   - component: {fileID: 114141885822985600}
   - component: {fileID: 114533762150946470}
@@ -905,8 +904,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1638766038788926}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: 0, z: 0}
-  m_LocalScale: {x: 0.07, y: 0.07, z: 0.07}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_Children:
   - {fileID: 4570182142091914}
   - {fileID: 4159907636684076}
@@ -1437,19 +1436,6 @@ MonoBehaviour:
   root: {fileID: 0}
   damage: 1
   isAttacked: 0
---- !u!114 &114754861008756806
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1638766038788926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 943cdba6c8742cf4b97bec9f0a60a095, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AddRunSpeed: 1
-  AddWalkSpeed: 0.5
 --- !u!136 &136056204737280082
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -1470,7 +1456,7 @@ CapsuleCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1794053168782898}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 4
   m_Height: 10

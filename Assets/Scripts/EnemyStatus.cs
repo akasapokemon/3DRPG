@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class EnemyStatus: MonoBehaviour {
 
-	public int life = 5;
+	public int life = 0;
 }
