@@ -36,10 +36,10 @@ public class CharaController : MonoBehaviour {
 
 			// 移動
 			if (Input.GetButton ("Horizontal") || Input.GetButton ("Vertical")) {
-				animator.SetBool ("isRun", true);
+				animator.SetBool ("run", true);
 				transform.Translate (Vector3.forward * Time.deltaTime * speed * 1);
 			} else {
-				animator.SetBool ("isRun", false);
+				animator.SetBool ("run", false);
 			}
 
 			// 方向転換
