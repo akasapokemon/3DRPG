@@ -10,7 +10,7 @@ public class EnemyAttack : MonoBehaviour {
 	public float damage = 1.0f;
 	public bool isAttacked = false;
 
-	// アニメーション中一回しかヒットさせないためのboolean
+	// アニメーション中一回しかヒットさせないためのbool
 	private bool one_hit = false;
 
 

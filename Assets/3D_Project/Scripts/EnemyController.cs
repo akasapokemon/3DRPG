@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour {
 	public EnemyAttack child;
 	EnemyStatus status;
 	ParticleSystem particle;
+	GameObject field;
 	public float speed = 0.1f;
 	public float attackDistance = 1.0f;
 	public float noticeDistance = 5.0f;
@@ -59,9 +60,13 @@ public class EnemyController : MonoBehaviour {
 			}
 		}
 
+		// Enemyのデス判定
 		if (this.status.life < 0) {
 			this.animator.SetBool ("dead", true);
 			StartCoroutine (DestroyEnemy (3.0f));
+
+			// EventsControllerのDeadEnemiesをインクリメント
+			target.GetComponent<EventsController>().DeadEnemies++;
 		}
 
 		// ヒットエフェクト
@@ -71,6 +76,7 @@ public class EnemyController : MonoBehaviour {
 		}
 	}
 
+	// コルーチン用の関数
 	private IEnumerator DestroyEnemy(float waitTime) {
 		yield return new WaitForSeconds(waitTime);
 		Destroy (gameObject);
