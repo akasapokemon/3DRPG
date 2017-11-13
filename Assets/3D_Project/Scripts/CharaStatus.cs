@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class CharaStatus : MonoBehaviour {
 
-	public float life = 5.0f;
+	public float hp = 1.0f;
 }
