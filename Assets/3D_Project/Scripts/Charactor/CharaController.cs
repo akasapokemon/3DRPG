@@ -7,21 +7,22 @@ public class CharaController : MonoBehaviour {
 
 	Animator animator;
 	public CharaAttack child;
-	public Rigidbody rigid;
-	public float speed = 3.0f;
+	public Rigidbody rb;
+	float speed = 20.0f;
 	public bool isGetHit = false;
 	bool isPressedUpKey = false;
 	bool isPressedDownKey = false;
 	bool isPressedRightKey = false;
 	bool isPressedLeftKey = false;
 	bool isPressedSpaceKey = false;
-	Vector3 prevPosition;
+	float inputHorizontal;
+	float inputVertical;
 
 	// Use this for initialization
 	void Start () {
 		animator = GetComponent<Animator> ();
 		child.GetComponent<CharaAttack> ();
-		rigid = GetComponent<Rigidbody> ();
+		rb = GetComponent<Rigidbody> ();
 	}
 
 	// Update is called once per frame
@@ -31,33 +32,43 @@ public class CharaController : MonoBehaviour {
 		ProcessKeys ();
 
 	}
-
-	void Move() {
+		
+	void Move () {
 
 		
 		if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.attack") == false) {
 
-			// 移動
 			if (Input.GetButton ("Horizontal") || Input.GetButton ("Vertical")) {
 
+				// キー入力を値として取得
+				inputHorizontal = Input.GetAxisRaw ("Horizontal");
+				inputVertical = Input.GetAxisRaw ("Vertical");
 
-				// 移動と方向転換
-				if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.attack") == false) {
-					animator.SetBool ("run", true);
-					transform.Translate (Vector3.forward * Time.deltaTime * speed * 1);
-					transform.rotation = Quaternion.LookRotation (transform.position +
-						(Vector3.right * Input.GetAxisRaw ("Horizontal")) +
-						(Vector3.forward * Input.GetAxisRaw ("Vertical"))
-						- transform.position);
+				// Cameraの正面方向をy軸を考慮せず取得
+				Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1));
+
+				// カメラベクトルに入力値を乗算してから正規化
+				Vector3 moveForward = ((cameraForward * inputVertical) + (Camera.main.transform.right * inputHorizontal)).normalized;
+
+				animator.SetBool ("run", true);
+
+				// 移動
+				rb.velocity = moveForward * speed;
+
+				// 方向転換
+				if (moveForward != Vector3.zero) {
+					transform.rotation = Quaternion.LookRotation(moveForward);
 				}
+
 			} else {
 				animator.SetBool ("run", false);
+				rb.velocity = Vector3.zero;
 			}
 		}
 
-//		if (animator.GetCurrentAnimatorStateInfo (0).normalizedTime >= 1.0f) {
-//			child.attack = false;
-//		}
+		if (animator.GetCurrentAnimatorStateInfo (0).normalizedTime >= 1.0f) {
+			child.attack = false;
+		}
 	}
 
 	void ProcessKeys () {

@@ -12,6 +12,7 @@ public class EnemyHpBarController : MonoBehaviour {
 
 		// スライダーの取得
 		slider = GetComponent<Slider>();
+		slider.value = 100;
 		root = transform.root.gameObject.GetComponent<EnemyStatus> ();
 
 	}
