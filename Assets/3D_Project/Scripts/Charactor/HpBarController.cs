@@ -5,13 +5,13 @@ using UnityEngine.UI;
 public class HpBarController : MonoBehaviour {
 
 	Slider slider;
-	public GameObject Player;
+	GameObject Player;
 
 	// Use this for initialization
 	void Start () {
 
 		// スライダーの取得
-		slider = GetComponent<Slider>();
+		slider = gameObject.transform.FindChild("Slider").gameObject.GetComponent<Slider>();
 		Player = GameObject.FindGameObjectWithTag ("Player");
 
 	}

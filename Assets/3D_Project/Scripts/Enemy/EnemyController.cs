@@ -10,7 +10,6 @@ public class EnemyController : MonoBehaviour {
 	public EnemyAttack child;
 	EnemyStatus status;
 	ParticleSystem particle;
-	GameObject field;
 	public float speed = 5.0f;
 	public float attackDistance = 1.0f;
 	public float noticeDistance = 10.0f;

@@ -11,8 +11,7 @@ public class EnemyHpBarController : MonoBehaviour {
 	void Start () {
 
 		// スライダーの取得
-		slider = transform.Find("Slider").gameObject.GetComponent<Slider>();
-		slider.value = 100;
+		slider = gameObject.transform.FindChild("Slider").gameObject.GetComponent<Slider>();
 	}
 
 	// Update is called once per frame

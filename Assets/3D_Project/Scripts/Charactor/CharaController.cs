@@ -79,5 +79,6 @@ public class CharaController : MonoBehaviour {
 			animator.SetBool ("run", false);
 			rb.velocity = Vector3.zero;
 		}
+
 	}
 }
