@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class EnemyStatus: MonoBehaviour {
 
-	public float hp = 1.0f;
+	public float hp = 100.0f;
 }

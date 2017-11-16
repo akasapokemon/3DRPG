@@ -28,10 +28,10 @@ public class EnemyController : MonoBehaviour {
 
 	void Update () {
 		
-		Move ();
+		Action ();
 	}
 
-	void Move() {
+	void Action () {
 		
 		Vector3 enemyPos = transform.position;
 		Vector3 charaPos = target.transform.position;
@@ -63,7 +63,7 @@ public class EnemyController : MonoBehaviour {
 		}
 
 		// Enemyのデス判定
-		if (this.status.hp <= 0) {
+		if (this.status.hp < 1) {
 			dead = true;
 			StopMotion ();
 			animator.SetBool ("dead", true);

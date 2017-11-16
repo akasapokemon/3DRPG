@@ -7,7 +7,7 @@ public class EnemyAttack : MonoBehaviour {
 
 	public GameObject root;
 	private CapsuleCollider collider;
-	public float damage = 0.3f;
+	public float damage = 5.0f;
 	public bool attack = false;
 
 	// アニメーション中一回しかヒットさせないためのbool
@@ -15,7 +15,6 @@ public class EnemyAttack : MonoBehaviour {
 
 
 	void Start() {
-		root = transform.root.gameObject;
 		collider = GetComponent<CapsuleCollider> ();
 	}
 

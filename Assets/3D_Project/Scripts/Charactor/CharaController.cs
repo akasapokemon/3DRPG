@@ -29,7 +29,6 @@ public class CharaController : MonoBehaviour {
 	void Update () {
 
 		Action ();
-
 	}
 		
 	void Action () {
