@@ -9,7 +9,7 @@ public class EnemyController : MonoBehaviour {
 	GameObject target;
 	public EnemyAttack child;
 	EnemyStatus status;
-	ParticleSystem particle;
+	GameObject EventsController;
 	public float speed = 5.0f;
 	public float attackDistance = 1.0f;
 	public float noticeDistance = 10.0f;
@@ -22,7 +22,7 @@ public class EnemyController : MonoBehaviour {
 		target = GameObject.FindGameObjectWithTag ("Player");
 		child.GetComponent<CapsuleCollider> ().isTrigger = false;
 		status = GetComponent<EnemyStatus> ();
-		particle = GetComponent<ParticleSystem> ();
+		EventsController = GameObject.FindGameObjectWithTag ("EventsController");
 	}
 
 	void Update () {
@@ -67,9 +67,6 @@ public class EnemyController : MonoBehaviour {
 			StopMotion ();
 			animator.SetBool ("dead", true);
 			StartCoroutine (DestroyEnemy (5.0f));
-
-			// EventsControllerのDeadEnemiesをインクリメント
-			target.GetComponent<EventsController>().DeadEnemies++;
 		}
 
 		// ヒットエフェクト
@@ -98,5 +95,6 @@ public class EnemyController : MonoBehaviour {
 	private IEnumerator DestroyEnemy(float waitTime) {
 		yield return new WaitForSeconds(waitTime);
 		Destroy (gameObject);
+		EventsController.GetComponent<EventsController>().DeadEnemies++;
 	}
 }
