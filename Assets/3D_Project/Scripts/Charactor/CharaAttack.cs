@@ -5,12 +5,14 @@ using UnityEngine;
 public class CharaAttack : MonoBehaviour {
 
 	Animator animator;
+	AudioSource slashAudio;
 	private MeshCollider collider;
 	public bool attack = false;
 	public float damage = 50.0f;
 
 	void Start(){
 		collider = GetComponent<MeshCollider> ();
+		slashAudio = GetComponent<AudioSource> ();
 	}
 
 	void Update() {
@@ -32,9 +34,11 @@ public class CharaAttack : MonoBehaviour {
 
 						// ルートにアタッチされているコントローラーにアクセスする
 						other.gameObject.transform.root.gameObject.GetComponent<EnemyController>().getHit = true;
+						slashAudio.Play();
 						other.gameObject.transform.root.gameObject.GetComponent<EnemyStatus> ().hp -= damage;
 					} else {
 						other.gameObject.GetComponent<EnemyController>().getHit = true;
+						slashAudio.Play();
 						other.gameObject.GetComponent<EnemyStatus> ().hp -= damage;
 					}
 					collider.isTrigger = false;

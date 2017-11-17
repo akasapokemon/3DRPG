@@ -6,6 +6,8 @@ public class EnemyController : MonoBehaviour {
 	
 
 	Animator animator;
+	AudioSource[] AudioSources;
+	AudioSource attackAudio;
 	GameObject target;
 	public EnemyAttack child;
 	EnemyStatus status;
@@ -15,10 +17,13 @@ public class EnemyController : MonoBehaviour {
 	public float noticeDistance = 10.0f;
 	public bool  getHit = false;
 	bool dead = false;
+	bool playAttackAudio = false;
 
 	void Start () {
 		
 		animator = GetComponent<Animator> ();
+		AudioSources = GetComponents<AudioSource> ();
+		attackAudio = AudioSources [0];
 		target = GameObject.FindGameObjectWithTag ("Player");
 		child.GetComponent<CapsuleCollider> ().isTrigger = false;
 		status = GetComponent<EnemyStatus> ();
@@ -27,7 +32,10 @@ public class EnemyController : MonoBehaviour {
 
 	void Update () {
 		
+
 		Action ();
+		AudioController ();
+
 	}
 
 	void Action () {
@@ -76,6 +84,24 @@ public class EnemyController : MonoBehaviour {
 		}
 	}
 
+	void AudioController () {
+
+		if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.run") ||
+		   animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.getHit")) {
+
+			playAttackAudio = false;
+		}
+
+		if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.attack") && playAttackAudio) {
+			if (attackAudio.isPlaying == false) {
+				attackAudio.Play ();
+			}
+		} else if (playAttackAudio == false) {
+			attackAudio.Stop ();
+		}
+	}
+		
+
 	void RunMotion () {
 		animator.SetBool ("attack", false);
 		animator.SetBool ("run", true);
@@ -87,6 +113,7 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	void StopMotion() {
+		playAttackAudio = true;
 		animator.SetBool ("run", false);
 		animator.SetBool ("attack", false);
 	}

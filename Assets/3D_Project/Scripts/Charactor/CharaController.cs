@@ -8,13 +8,19 @@ public class CharaController : MonoBehaviour {
 	Animator animator;
 	public CharaAttack child;
 	public Rigidbody rb;
+	AudioSource[] AudioSources;
+	AudioSource runAudio;
 	float speed = 10.0f;
+	float timer = 0.5f;
+	int audioIdx = 0;
 	public bool isGetHit = false;
 	bool isPressedUpKey = false;
 	bool isPressedDownKey = false;
 	bool isPressedRightKey = false;
 	bool isPressedLeftKey = false;
 	bool isPressedSpaceKey = false;
+	bool attackAudioOnce = false;
+	bool playRunAudio= false;
 	float inputHorizontal;
 	float inputVertical;
 
@@ -23,37 +29,60 @@ public class CharaController : MonoBehaviour {
 		animator = GetComponent<Animator> ();
 		child.GetComponent<CharaAttack> ();
 		rb = GetComponent<Rigidbody> ();
+		AudioSources = GetComponents<AudioSource> ();
+		runAudio = AudioSources [3];
 	}
 
 	// Update is called once per frame
 	void Update () {
 
-		Action ();
+		// 攻撃モーション中では無い場合
+		if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.attack") == false) {
+			Action ();
+			attackAudioOnce = false;
+		}
+		AudioController ();
+
 	}
 		
-	void Action () {
 
-		if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.attack") == false) {
+	void AudioController () {
 
-			KeyEvents ();
+		if (audioIdx > 2) {
+			audioIdx = 0;
 		}
 
+		// 攻撃モーション中
 		if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.attack")) {
-			if (animator.GetCurrentAnimatorStateInfo (0).normalizedTime >= 1.0f) {
-				child.attack = false;
+
+			if (attackAudioOnce == false) {
+				AudioSources [audioIdx].Play ();
+				audioIdx++;
+				attackAudioOnce = true;
+			}
+		}
+
+		// 移動モーション中
+		if(animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.run")) {
+
+			if ( runAudio.isPlaying == false && playRunAudio) {
+				runAudio.Play ();
+			} else if(playRunAudio == false) {
+				runAudio.Stop ();
 			}
 		}
 	}
 
-	void KeyEvents () {
+	void Action () {
 		
 		if (Input.GetKeyDown ("space")) {
-			Debug.Log ("pass");
 			child.attack = true;
 			animator.SetTrigger ("attackTrigger");
 		}
 
 		if (Input.GetButton ("Horizontal") || Input.GetButton ("Vertical")) {
+
+			playRunAudio = true;
 
 			// キー入力を値として取得
 			inputHorizontal = Input.GetAxisRaw ("Horizontal");
@@ -76,6 +105,7 @@ public class CharaController : MonoBehaviour {
 			}
 
 		} else {
+			playRunAudio = false;
 			animator.SetBool ("run", false);
 			rb.velocity = Vector3.zero;
 		}
