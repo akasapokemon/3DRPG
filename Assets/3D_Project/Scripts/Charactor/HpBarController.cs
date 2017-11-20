@@ -11,7 +11,7 @@ public class HpBarController : MonoBehaviour {
 	void Start () {
 
 		// スライダーの取得
-		slider = gameObject.transform.FindChild("Slider").gameObject.GetComponent<Slider>();
+		slider = gameObject.transform.Find("Slider").gameObject.GetComponent<Slider>();
 		Player = GameObject.FindGameObjectWithTag ("Player");
 
 	}

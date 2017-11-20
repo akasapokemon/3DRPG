@@ -52,6 +52,7 @@ public class EnemyController : MonoBehaviour {
 			if (distance < attackDistance) {
 				AttackMotion ();
 				child.attack = true;
+				playAttackAudio = true;
 
 				// 攻撃モーション以外はキャラに向かって移動して来る
 			} else if (distance < noticeDistance) {
@@ -96,7 +97,7 @@ public class EnemyController : MonoBehaviour {
 			if (attackAudio.isPlaying == false) {
 				attackAudio.Play ();
 			}
-		} else if (playAttackAudio == false) {
+		} else if (playAttackAudio == false || animator.GetCurrentAnimatorStateInfo (0).normalizedTime > 1.0f) {
 			attackAudio.Stop ();
 		}
 	}

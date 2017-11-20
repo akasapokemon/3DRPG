@@ -55,6 +55,7 @@ public class CharaController : MonoBehaviour {
 		// 攻撃モーション中
 		if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.attack")) {
 
+			// 一回流したら次のソースへ
 			if (attackAudioOnce == false) {
 				AudioSources [audioIdx].Play ();
 				audioIdx++;
