@@ -5,8 +5,7 @@ public class AssignTerrainLOD : ScriptableObject {
 
 	[MenuItem ("Component/LostLand/Assign Terrain LOD")]
 	static void AssignTerrainLODScripts() 
-	{
-		Debug.Log("[AssignTerrainLODScripts] Start");			
+	{		
 		
 		GameObject[] allObjects = (GameObject[])Editor.FindObjectsOfType(typeof(GameObject));
 		foreach(GameObject obj in allObjects)
@@ -34,7 +33,6 @@ public class AssignTerrainLOD : ScriptableObject {
 				if( obj.name.Contains("High") ) 
 				{
 					obj.AddComponent(typeof(TerrainLOD));
-					Debug.Log("[AssignTerrainLODScripts] Add LOD script to " + obj.name);
 					//Debug.Log ("Mesh name: " + m.name);
 					obj.AddComponent(typeof(MeshCollider));
 					// Enable Highest LOD mesh
@@ -43,19 +41,15 @@ public class AssignTerrainLOD : ScriptableObject {
 				
 				// нормируем имена компонентов
 				Renderer ren = (Renderer)obj.GetComponent(typeof(Renderer));
-				Debug.Log("Mat name: " + ren.sharedMaterial.name );
-				Debug.Log("Obj name: " + obj.name);
 				char[] delim1 = { '(', ')' };
 				char[] delim2 = { ' ' };
 				string[] number = ren.sharedMaterial.name.Split( delim1 );
 				string[] objname = obj.name.Split( delim2 );
 				obj.name = objname[0] + ' ' + number[1];
-				Debug.Log ("New Obj name: " + obj.name);
 			
 			}
 		}
-		
-		Debug.Log("[AssignTerrainLODScripts] End");
+
 	}
 }
 

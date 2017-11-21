@@ -19,6 +19,8 @@ public class CharaAttack : MonoBehaviour {
 		
 		if (attack) {
 			collider.isTrigger = true;
+		} else {
+			collider.isTrigger = false;
 		}
 	}
 			

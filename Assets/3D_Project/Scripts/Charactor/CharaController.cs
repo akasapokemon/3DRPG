@@ -10,10 +10,11 @@ public class CharaController : MonoBehaviour {
 	public Rigidbody rb;
 	AudioSource[] AudioSources;
 	AudioSource runAudio;
-	float speed = 10.0f;
+	float speed = 15.0f;
 	float timer = 0.5f;
 	int audioIdx = 0;
-	public bool isGetHit = false;
+	public bool dead = false;
+	public bool start = false;
 	bool isPressedUpKey = false;
 	bool isPressedDownKey = false;
 	bool isPressedRightKey = false;
@@ -31,25 +32,38 @@ public class CharaController : MonoBehaviour {
 		rb = GetComponent<Rigidbody> ();
 		AudioSources = GetComponents<AudioSource> ();
 		runAudio = AudioSources [3];
+
 	}
 
 	// Update is called once per frame
 	void Update () {
 
-		// 攻撃モーション中では無い場合
-		if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.attack") == false) {
-			Action ();
-			attackAudioOnce = false;
-		}
-		AudioController ();
+		// メイン処理
+		if (start) {
+			// 攻撃モーション中では無い場合
+			if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.attack") == false) {
+				Action ();
+				attackAudioOnce = false;
+			} else if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1.0f){
+				child.attack = false;
+			}
+			AudioController ();
 
+		}
 	}
 		
 
 	void AudioController () {
 
+		// 攻撃音声を一回一回変える
 		if (audioIdx > 2) {
 			audioIdx = 0;
+		}
+
+		if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.attack") ||
+		   animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.Idle")) {
+
+			runAudio.Stop ();
 		}
 
 		// 攻撃モーション中
@@ -64,12 +78,14 @@ public class CharaController : MonoBehaviour {
 		}
 
 		// 移動モーション中
-		if(animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.run")) {
+		if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.run")) {
 
-			if ( runAudio.isPlaying == false && playRunAudio) {
-				runAudio.Play ();
-			} else if(playRunAudio == false) {
+			if (dead) {
 				runAudio.Stop ();
+			}
+
+			if (runAudio.isPlaying == false) {
+				runAudio.Play ();
 			}
 		}
 	}
@@ -80,6 +96,7 @@ public class CharaController : MonoBehaviour {
 			child.attack = true;
 			animator.SetTrigger ("attackTrigger");
 		}
+
 
 		if (Input.GetButton ("Horizontal") || Input.GetButton ("Vertical")) {
 
@@ -95,18 +112,16 @@ public class CharaController : MonoBehaviour {
 			// カメラベクトルに入力値を乗算してから正規化
 			Vector3 moveForward = ((cameraForward * inputVertical) + (Camera.main.transform.right * inputHorizontal)).normalized;
 
-			animator.SetBool ("run", true);
-
-			// 移動
-			rb.velocity = moveForward * speed;
-
-			// 方向転換
 			if (moveForward != Vector3.zero) {
+				animator.SetBool ("run", true);
+
+				// 移動
+				rb.velocity = moveForward * speed;
+
+				// 方向転換
 				transform.rotation = Quaternion.LookRotation (moveForward);
 			}
-
 		} else {
-			playRunAudio = false;
 			animator.SetBool ("run", false);
 			rb.velocity = Vector3.zero;
 		}
