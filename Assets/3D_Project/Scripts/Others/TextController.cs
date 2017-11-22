@@ -7,7 +7,6 @@ public class TextController : MonoBehaviour {
 
 	public string[] scenarios;
 	public Text uiText;
-	GameObject mainGame;
 	GameObject textBox;
 
 	int currentIndex = 0;
@@ -17,7 +16,6 @@ public class TextController : MonoBehaviour {
 	void Start () {
 
 		textBox = GameObject.FindGameObjectWithTag ("TextBox");
-		mainGame = GameObject.FindGameObjectWithTag ("Player");
 		TextUpdate ();
 	}
 	
@@ -36,7 +34,6 @@ public class TextController : MonoBehaviour {
 
 		if (currentIndex >= scenarios.Length) {
 			textBox.SetActive (false);
-			mainGame.GetComponent<CharaController> ().start = true;
 
 		} else {
 			uiText.text = scenarios [currentIndex];

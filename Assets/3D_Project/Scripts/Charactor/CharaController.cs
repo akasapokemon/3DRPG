@@ -38,18 +38,14 @@ public class CharaController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		// メイン処理
-		if (start) {
-			// 攻撃モーション中では無い場合
-			if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.attack") == false) {
-				Action ();
-				attackAudioOnce = false;
-			} else if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1.0f){
-				child.attack = false;
-			}
-			AudioController ();
-
+		// 攻撃モーション中では無い場合
+		if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.attack") == false) {
+			Action ();
+			attackAudioOnce = false;
+		} else if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1.0f){
+			child.attack = false;
 		}
+		AudioController ();
 	}
 		
 
