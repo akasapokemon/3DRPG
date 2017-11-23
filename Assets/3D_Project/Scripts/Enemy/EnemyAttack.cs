@@ -7,7 +7,6 @@ public class EnemyAttack : MonoBehaviour {
 
 	public GameObject root;
 	private CapsuleCollider collider;
-	public float damage = 5.0f;
 	public bool attack = false;
 
 	// アニメーション中一回しかヒットさせないためのbool
@@ -41,7 +40,7 @@ public class EnemyAttack : MonoBehaviour {
 
 					// トリガーで察知したオブジェクトを操作すると、コンソールに謎の文がでるのでエラー(?)をキャッチして返してあげる
 					try {
-						other.gameObject.GetComponent<CharaStatus> ().hp -= damage;
+						other.gameObject.GetComponent<CharaStatus> ().hp -= root.GetComponent<EnemyStatus>().damage;
 						collider.isTrigger = false;
 						attack = false;
 

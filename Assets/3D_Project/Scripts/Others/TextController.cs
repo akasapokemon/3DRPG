@@ -8,6 +8,7 @@ public class TextController : MonoBehaviour {
 	public string[] scenarios;
 	public Text uiText;
 	GameObject textBox;
+	public bool finishedZoom = false;
 
 	int currentIndex = 0;
 
