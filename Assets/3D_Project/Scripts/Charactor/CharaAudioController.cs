@@ -8,6 +8,9 @@ public class CharaAudioController : MonoBehaviour {
 	AudioSource[] AudioSources;
 	AudioSource runAudio;
 	CharaStatus status;
+	GameObject BGM;
+	GameObject GameOverBGM;
+	bool gameOverAudioOnce = false;
 	int audioIdx = 0;
 	bool attackAudioOnce = false;
 
@@ -17,6 +20,8 @@ public class CharaAudioController : MonoBehaviour {
 		animator = GetComponent<Animator> ();
 		status = GetComponent<CharaStatus> ();
 		AudioSources = GetComponents<AudioSource> ();
+		BGM = GameObject.FindGameObjectWithTag ("BGM");
+		GameOverBGM = GameObject.FindGameObjectWithTag ("GameOverBGM");
 		runAudio = AudioSources [3];
 	}
 	
@@ -37,6 +42,13 @@ public class CharaAudioController : MonoBehaviour {
 		// 攻撃音声を一回一回変える
 		if (audioIdx > 2) {
 			audioIdx = 0;
+		}
+
+		// キャラが死んだらBGMを止める
+		if (status.dead && gameOverAudioOnce == false) {
+			BGM.GetComponent<AudioSource> ().Stop ();
+			GameOverBGM.GetComponent<AudioSource> ().Play ();
+			gameOverAudioOnce = true;
 		}
 
 		if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.attack") ||
@@ -61,6 +73,7 @@ public class CharaAudioController : MonoBehaviour {
 
 			if (status.dead) {
 				runAudio.Stop ();
+
 			}
 
 			if (runAudio.isPlaying == false) {

@@ -7,16 +7,27 @@ public class TextController : MonoBehaviour {
 
 	public string[] scenarios;
 	public Text uiText;
-	GameObject textBox;
+	public GameObject textBox;
+	GameObject eventsCtr;
 	public bool finishedZoom = false;
-
+	public Text GameOver;
+	public Image BackGround;
+	public Text Continue;
+	bool startFlag = true;
+	bool startBackGroundFlag = true;
+	float gameOverColor = 0f;
+	float backGroundColor = 0f;
+	public GameObject ContinueButton;
+	float continueColor = 0f;
+	int counter = 0;
+	bool appearButton = false;
 	int currentIndex = 0;
 
 
 	// Use this for initialization
 	void Start () {
 
-		textBox = GameObject.FindGameObjectWithTag ("TextBox");
+		eventsCtr = GameObject.FindGameObjectWithTag ("EventsController");
 		TextUpdate ();
 	}
 	
@@ -28,7 +39,14 @@ public class TextController : MonoBehaviour {
 			TextUpdate ();
 		}
 
+		if (eventsCtr.GetComponent<EventsController> ().isZoom == false) {
+			GameOverText ();
+			GameOverBackGround ();
+		}
 
+		if (gameOverColor == 1.0f && backGroundColor == 0.8f) {
+			FlashContinue ();
+		}
 	}
 
 	void TextUpdate () {
@@ -41,5 +59,44 @@ public class TextController : MonoBehaviour {
 
 		}
 		currentIndex++;
+	}
+
+	void GameOverText () {
+
+		if (eventsCtr.GetComponent<EventsController> ().isZoom == false) {
+			if (startFlag) {
+				GameOver.color = new Color (255, 0, 0, gameOverColor);
+				gameOverColor += Time.deltaTime;
+
+				if (gameOverColor > 1) {
+					gameOverColor = 1;
+					startFlag = false;
+				}
+			}
+ 		}
+	}
+
+	void GameOverBackGround () {
+		if (startBackGroundFlag) {
+			BackGround.color = new Color (0, 0, 0, backGroundColor);
+			backGroundColor += Time.deltaTime;
+
+			if (backGroundColor > 0.8f) {
+				backGroundColor = 0.8f;
+				startBackGroundFlag = false;
+			}
+		}
+	}
+
+	void FlashContinue () {
+
+		if (appearButton == false) {
+			ContinueButton.SetActive (true);
+			appearButton = true;
+		}
+
+		counter++;
+		Continue.color = new Color (249, 255, 0, continueColor);
+		continueColor = 1.0f * Mathf.Sin( counter * 0.1f) / 1.5f;
 	}
 }

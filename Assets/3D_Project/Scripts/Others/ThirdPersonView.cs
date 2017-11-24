@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ThirdPersonView : MonoBehaviour {
 	
-	public GameObject Player;
+	GameObject Player;
 	Vector3 PlayerPos;
 	public int height = 6;
 	public int deep = 5;

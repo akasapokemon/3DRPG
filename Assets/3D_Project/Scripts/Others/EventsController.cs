@@ -8,6 +8,7 @@ public class EventsController : MonoBehaviour {
 	public int DeadEnemies = 0;
 	bool BossEvent = false;
 	bool GameOver = false;
+	public bool isZoom = true;
 	GameObject textController;
 
 	// Use this for initialization
@@ -39,15 +40,24 @@ public class EventsController : MonoBehaviour {
 			
 		}
 
-//		// ゲームオーバーイベント
-//		if (GameOver) {
-//
-//			if (Camera.main.fieldOfView < 34.5f) {
-//
-//				textController.GetComponent<TextController> ().finishedZoom = true;
-//			}
-//
-//			Camera.main.fieldOfView - 0.1f;
-//		}
+		// ゲームオーバーイベント
+		if (GameOver) {
+			ZoomPlayer (3.0f);
+		}
+	}
+
+	private IEnumerator ZoomPlayer(float waitTime) {
+		yield return new WaitForSeconds(waitTime);
+
+		if (Camera.main.fieldOfView < 34.5f) {
+
+			textController.GetComponent<TextController> ().finishedZoom = true;
+			isZoom = false;
+
+		} else if (isZoom){
+
+			// カメラのズームをデクリメントし続ける
+			Camera.main.fieldOfView = Camera.main.fieldOfView - 1.0f;
+		}
 	}
 }

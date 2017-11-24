@@ -7,6 +7,7 @@ public class EnemyAudioController : MonoBehaviour {
 	Animator animator;
 	AudioSource[] AudioSources;
 	AudioSource attackAudio;
+	GameObject Player;
 	public bool playAttackAudio = false;
 
 	// Use this for initialization
@@ -14,6 +15,7 @@ public class EnemyAudioController : MonoBehaviour {
 
 		animator = GetComponent<Animator> ();
 		AudioSources = GetComponents<AudioSource> ();
+		Player = GameObject.FindGameObjectWithTag ("Player");
 		attackAudio = AudioSources [0];
 	}
 	
@@ -25,6 +27,12 @@ public class EnemyAudioController : MonoBehaviour {
 	}
 
 	void AudioController () {
+		
+		// キャラが死んでたらオーディオを止める
+		if (Player.GetComponent<CharaStatus> ().dead) {
+			attackAudio.Stop ();
+		}
+
 
 		if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.run") ||
 			animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.getHit")) {
