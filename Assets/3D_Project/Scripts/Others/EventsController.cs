@@ -6,10 +6,13 @@ public class EventsController : MonoBehaviour {
 
 	GameObject Player;
 	public int DeadEnemies = 0;
-	bool BossEvent = false;
+	public bool BossEvent = false;
 	bool GameOver = false;
 	public bool isZoom = true;
 	GameObject textController;
+	public GameObject MagicSquare;
+	bool appearMagicSquare = false;
+	public LoadingScene loadingScene;
 
 	// Use this for initialization
 	void Start () {
@@ -37,7 +40,17 @@ public class EventsController : MonoBehaviour {
 
 		// ボス発生イベント
 		if (BossEvent) {
-			
+
+			// 魔法陣を出現させる
+			if (appearMagicSquare == false) {
+				MagicSquare.SetActive (true);
+				appearMagicSquare = true;
+
+			// 魔法陣に入っていたらボスシーンに遷移
+			} else if (MagicSquare.GetComponent<JudgeOfMagicSquare>().intoMagicSquare) {
+				loadingScene.goToBoss = true;
+			}
+				
 		}
 
 		// ゲームオーバーイベント

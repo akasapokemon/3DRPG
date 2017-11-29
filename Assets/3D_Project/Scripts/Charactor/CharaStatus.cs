@@ -8,4 +8,5 @@ public class CharaStatus : MonoBehaviour {
 	public bool dead = false;
 	public float speed = 15.0f;
 	public float damage = 50.0f;
+	public bool getHit = false;
 }

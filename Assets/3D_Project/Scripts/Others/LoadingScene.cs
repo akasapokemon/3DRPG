@@ -9,6 +9,7 @@ public class LoadingScene : MonoBehaviour {
 	public bool isPressedStart = false;
 	public bool isPressedQuit = false;
 	public bool isPressedContinue = false;
+	public bool goToBoss = false;
 	private AsyncOperation async;
 	public GameObject OtherUi;
 	public GameObject Slider;
@@ -17,6 +18,14 @@ public class LoadingScene : MonoBehaviour {
 	void Update () {
 		if (isPressedStart) {
 			ChangeToGameScene ();
+		}
+
+		if (isPressedContinue) {
+			ChangeToGameRestart ();
+		}
+
+		if (goToBoss) {
+			ChangeToBossScene ();
 		}
 	}
 
@@ -29,10 +38,16 @@ public class LoadingScene : MonoBehaviour {
 	}
 
 	void ChangeToBossScene () {
+		OtherUi.SetActive (false);
+		Slider.SetActive (true);
+		Panel.SetActive (true);
+		StartCoroutine (LoadScene ("BossScene"));
+		goToBoss = false;
 	}
 
 	void ChangeToGameRestart () {
-		
+		SceneManager.LoadScene ("GameScene");
+		isPressedContinue = false;
 	}
 
 	IEnumerator LoadScene (string Scene) {

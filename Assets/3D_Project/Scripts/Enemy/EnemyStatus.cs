@@ -8,4 +8,5 @@ public class EnemyStatus: MonoBehaviour {
 	public bool dead = false;
 	public float speed = 5.0f;
 	public float damage = 5.0f;
+	public bool  getHit = false;
 }

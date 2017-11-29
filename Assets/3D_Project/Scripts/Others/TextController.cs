@@ -10,9 +10,9 @@ public class TextController : MonoBehaviour {
 	public GameObject textBox;
 	GameObject eventsCtr;
 	public bool finishedZoom = false;
-	public Text GameOver;
-	public Image BackGround;
-	public Text Continue;
+	public GameObject GameOver;
+	public GameObject BackGround;
+	public GameObject Continue;
 	bool startFlag = true;
 	bool startBackGroundFlag = true;
 	float gameOverColor = 0f;
@@ -20,6 +20,8 @@ public class TextController : MonoBehaviour {
 	public GameObject ContinueButton;
 	float continueColor = 0f;
 	int counter = 0;
+	bool appearText = false;
+	bool appearBackGround = false;
 	bool appearButton = false;
 	int currentIndex = 0;
 
@@ -62,23 +64,30 @@ public class TextController : MonoBehaviour {
 	}
 
 	void GameOverText () {
-
-		if (eventsCtr.GetComponent<EventsController> ().isZoom == false) {
-			if (startFlag) {
-				GameOver.color = new Color (255, 0, 0, gameOverColor);
-				gameOverColor += Time.deltaTime;
-
-				if (gameOverColor > 1) {
-					gameOverColor = 1;
-					startFlag = false;
-				}
+		if (startFlag) {
+			if (appearText == false) {
+				GameOver.SetActive (true);
+				appearText = true;
 			}
- 		}
+
+			GameOver.GetComponent<Text>().color = new Color (255, 0, 0, gameOverColor);
+			gameOverColor += Time.deltaTime;
+
+			if (gameOverColor > 1) {
+				gameOverColor = 1;
+				startFlag = false;
+			}
+		}
 	}
 
 	void GameOverBackGround () {
 		if (startBackGroundFlag) {
-			BackGround.color = new Color (0, 0, 0, backGroundColor);
+			if (appearBackGround == false) {
+				BackGround.SetActive (true);
+				appearBackGround = false;
+			}
+
+			BackGround.GetComponent<Image>().color = new Color (0, 0, 0, backGroundColor);
 			backGroundColor += Time.deltaTime;
 
 			if (backGroundColor > 0.8f) {
@@ -96,7 +105,7 @@ public class TextController : MonoBehaviour {
 		}
 
 		counter++;
-		Continue.color = new Color (249, 255, 0, continueColor);
+		Continue.GetComponent<Text>().color = new Color (249, 255, 0, continueColor);
 		continueColor = 1.0f * Mathf.Sin( counter * 0.1f) / 1.5f;
 	}
 }

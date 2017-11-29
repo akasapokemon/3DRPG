@@ -13,7 +13,6 @@ public class EnemyController : MonoBehaviour {
 	GameObject EventsController;
 	public float attackDistance = 1.0f;
 	public float noticeDistance = 10.0f;
-	public bool  getHit = false;
 
 
 	void Start () {
@@ -74,9 +73,9 @@ public class EnemyController : MonoBehaviour {
 		}
 
 		// ヒットエフェクト
-		if (getHit) {
+		if (status.getHit) {
 			animator.SetTrigger ("getHitTrigger");
-			getHit = false;
+			status.getHit = false;
 		}
 	}
 		

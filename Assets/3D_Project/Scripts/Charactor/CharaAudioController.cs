@@ -7,12 +7,16 @@ public class CharaAudioController : MonoBehaviour {
 	Animator animator;
 	AudioSource[] AudioSources;
 	AudioSource runAudio;
+	AudioSource deadAudio;
 	CharaStatus status;
 	GameObject BGM;
 	GameObject GameOverBGM;
+	GameObject EventsCtr;
 	bool gameOverAudioOnce = false;
-	int audioIdx = 0;
+	int attackAudioIdx = 0;
+	int getHitAudioIdx = 4;
 	bool attackAudioOnce = false;
+	bool deadAudioOnce = false;
 
 	// Use this for initialization
 	void Start () {
@@ -22,7 +26,9 @@ public class CharaAudioController : MonoBehaviour {
 		AudioSources = GetComponents<AudioSource> ();
 		BGM = GameObject.FindGameObjectWithTag ("BGM");
 		GameOverBGM = GameObject.FindGameObjectWithTag ("GameOverBGM");
+		EventsCtr = GameObject.FindGameObjectWithTag ("EventsController");
 		runAudio = AudioSources [3];
+		deadAudio = AudioSources [6];
 	}
 	
 	// Update is called once per frame
@@ -40,15 +46,23 @@ public class CharaAudioController : MonoBehaviour {
 	void AudioController () {
 
 		// 攻撃音声を一回一回変える
-		if (audioIdx > 2) {
-			audioIdx = 0;
+		if (attackAudioIdx > 2) {
+			attackAudioIdx = 0;
 		}
 
 		// キャラが死んだらBGMを止める
 		if (status.dead && gameOverAudioOnce == false) {
 			BGM.GetComponent<AudioSource> ().Stop ();
-			GameOverBGM.GetComponent<AudioSource> ().Play ();
-			gameOverAudioOnce = true;
+
+			if (deadAudioOnce == false) {
+				deadAudio.Play ();
+				deadAudioOnce = true;
+			}
+
+			if (EventsCtr.GetComponent<EventsController> ().isZoom == false) {
+				GameOverBGM.GetComponent<AudioSource> ().Play ();
+				gameOverAudioOnce = true;
+			}
 		}
 
 		if (animator.GetCurrentAnimatorStateInfo (0).IsName ("Base Layer.attack") ||
@@ -62,8 +76,8 @@ public class CharaAudioController : MonoBehaviour {
 
 			// 一回流したら次のソースへ
 			if (attackAudioOnce == false) {
-				AudioSources [audioIdx].Play ();
-				audioIdx++;
+				AudioSources [attackAudioIdx].Play ();
+				attackAudioIdx++;
 				attackAudioOnce = true;
 			}
 		}
@@ -78,6 +92,17 @@ public class CharaAudioController : MonoBehaviour {
 
 			if (runAudio.isPlaying == false) {
 				runAudio.Play ();
+			}
+		}
+
+		// キャラが攻撃をくらったら
+		if (status.getHit) {
+			AudioSources [getHitAudioIdx].Play();
+			getHitAudioIdx++;
+			status.getHit = false;
+
+			if (getHitAudioIdx > 5) {
+				getHitAudioIdx = 4;
 			}
 		}
 	}

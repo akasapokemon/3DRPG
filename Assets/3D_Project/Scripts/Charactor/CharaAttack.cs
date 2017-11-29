@@ -37,11 +37,11 @@ public class CharaAttack : MonoBehaviour {
 					if(other.gameObject.GetComponent<EnemyController>() == null) {
 
 						// ルートにアタッチされているコントローラーにアクセスする
-						other.gameObject.transform.root.gameObject.GetComponent<EnemyController>().getHit = true;
+						other.gameObject.transform.root.gameObject.GetComponent<EnemyStatus>().getHit = true;
 						slashAudio.Play();
 						other.gameObject.transform.root.gameObject.GetComponent<EnemyStatus> ().hp -= rootStatus.GetComponent<CharaStatus>().damage;
 					} else {
-						other.gameObject.GetComponent<EnemyController>().getHit = true;
+						other.gameObject.GetComponent<EnemyStatus>().getHit = true;
 						slashAudio.Play();
 						other.gameObject.GetComponent<EnemyStatus> ().hp -= rootStatus.GetComponent<CharaStatus>().damage;
 					}

@@ -41,6 +41,7 @@ public class EnemyAttack : MonoBehaviour {
 					// トリガーで察知したオブジェクトを操作すると、コンソールに謎の文がでるのでエラー(?)をキャッチして返してあげる
 					try {
 						other.gameObject.GetComponent<CharaStatus> ().hp -= root.GetComponent<EnemyStatus>().damage;
+						other.gameObject.GetComponent<CharaStatus> ().getHit = true;
 						collider.isTrigger = false;
 						attack = false;
 
