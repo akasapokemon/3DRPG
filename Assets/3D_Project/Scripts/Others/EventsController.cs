@@ -42,7 +42,7 @@ public class EventsController : MonoBehaviour {
 
 		// ゲームオーバーイベント
 		if (GameOver) {
-			ZoomPlayer (3.0f);
+			StartCoroutine (ZoomPlayer (3.0f));
 		}
 	}
 

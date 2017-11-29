@@ -47,8 +47,7 @@ public class CharaController : MonoBehaviour {
 			status.dead = true;
 			animator.SetBool ("dead", true);
 		}
-
-
+			
 
 		if (status.dead == false) {
 			
