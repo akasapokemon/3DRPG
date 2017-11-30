@@ -25,20 +25,28 @@ public class TextController : MonoBehaviour {
 	bool appearButton = false;
 	int currentIndex = 0;
 
+	// テキスト表示用真偽値
+	bool showText = true;
+	bool tutorialOfStory = false;
+	bool middleOfStory = false;
+	bool bossOfStory = false;
+	bool clearOfStory = false;
+
+
 
 	// Use this for initialization
 	void Start () {
 
 		eventsCtr = GameObject.FindGameObjectWithTag ("EventsController");
-		TextUpdate ();
+		TextUpdateTutorial ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if (Input.GetKeyDown ("return")) {
+		if (Input.GetKeyDown ("return") && showText) {
 			
-			TextUpdate ();
+			TextUpdateTutorial ();
 		}
 
 		if (eventsCtr.GetComponent<EventsController> ().isZoom == false) {
@@ -51,11 +59,14 @@ public class TextController : MonoBehaviour {
 		}
 	}
 
-	void TextUpdate () {
+	//----テキスト表示用関数---------
 
-		if (currentIndex >= scenarios.Length) {
+	void TextUpdateTutorial () {
+
+		if (currentIndex > 7) {
+			showText = false;
+			tutorialOfStory = false;
 			textBox.SetActive (false);
-
 		} else {
 			uiText.text = scenarios [currentIndex];
 
@@ -63,6 +74,61 @@ public class TextController : MonoBehaviour {
 		currentIndex++;
 	}
 
+	void TextUpdateMiddle () {
+
+		if (currentIndex > 9) {
+			showText = false;
+			middleOfStory = false;
+			textBox.SetActive (false);
+		} else {
+			uiText.text = scenarios [currentIndex];
+		}
+		currentIndex++;
+	}
+
+	void TextUpdateBoss () {
+
+		if (currentIndex > 13) {
+			showText = false;
+			bossOfStory = false;
+			textBox.SetActive (false);
+		} else {
+			uiText.text = scenarios [currentIndex];
+		}
+		currentIndex++;
+	}
+
+	void TextUpdateClear () {
+
+		if (currentIndex > 17) {
+			showText = false;
+			clearOfStory = false;
+			textBox.SetActive (false);
+		} else {
+			uiText.text = scenarios [currentIndex];
+		}
+		currentIndex++;
+	}
+
+
+
+	// ------テキスト関数をまとめる関数---------
+	void TextUpdateMaster () {
+		
+		if (middleOfStory) {
+			
+		} else if (bossOfStory) {
+			
+		} else if (clearOfStory) {
+			
+		} else if (tutorialOfStory) {
+			
+		}
+	}
+
+
+
+	// --------ゲームオーバ用----------
 	void GameOverText () {
 		if (startFlag) {
 			if (appearText == false) {
