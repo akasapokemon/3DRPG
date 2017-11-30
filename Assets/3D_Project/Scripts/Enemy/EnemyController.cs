@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour {
 	EnemyStatus status;
 	EnemyAudioController enemyAudioCtr;
 	GameObject EventsController;
+	Rigidbody rb;
 	public float attackDistance = 1.0f;
 	public float noticeDistance = 10.0f;
 
@@ -22,6 +23,7 @@ public class EnemyController : MonoBehaviour {
 		child.GetComponent<CapsuleCollider> ().isTrigger = false;
 		status = GetComponent<EnemyStatus> ();
 		enemyAudioCtr = GetComponent<EnemyAudioController> ();
+		rb = GetComponent<Rigidbody> ();
 		EventsController = GameObject.FindGameObjectWithTag ("EventsController");
 	}
 
@@ -67,8 +69,13 @@ public class EnemyController : MonoBehaviour {
 		// Enemyのデス判定
 		if (status.hp < 1) {
 			status.dead = true;
+		}
+
+		if (status.dead) {
 			StopMotion ();
 			animator.SetBool ("dead", true);
+			rb.constraints = RigidbodyConstraints.FreezePosition |
+			RigidbodyConstraints.FreezeRotation;
 			StartCoroutine (DestroyEnemy (5.0f));
 		}
 

@@ -13,12 +13,15 @@ public class EventsController : MonoBehaviour {
 	public GameObject MagicSquare;
 	bool appearMagicSquare = false;
 	public LoadingScene loadingScene;
+	AudioSource warpAudio;
+	bool oneTime;
 
 	// Use this for initialization
 	void Start () {
 
 		Player = GameObject.FindGameObjectWithTag ("Player");
 		textController = GameObject.FindGameObjectWithTag ("TextController");
+		warpAudio = GetComponent<AudioSource> ();
 	}
 	
 	// Update is called once per frame
@@ -48,7 +51,11 @@ public class EventsController : MonoBehaviour {
 
 			// 魔法陣に入っていたらボスシーンに遷移
 			} else if (MagicSquare.GetComponent<JudgeOfMagicSquare>().intoMagicSquare) {
-				loadingScene.goToBoss = true;
+				if (oneTime == false) {
+					warpAudio.Play ();
+					StartCoroutine (DerayGoToBoss (1.0f));
+					oneTime = true;
+				}
 			}
 				
 		}
@@ -72,5 +79,11 @@ public class EventsController : MonoBehaviour {
 			// カメラのズームをデクリメントし続ける
 			Camera.main.fieldOfView = Camera.main.fieldOfView - 1.0f;
 		}
+	}
+
+	IEnumerator DerayGoToBoss (float waitTime) {
+		yield return new WaitForSeconds (waitTime);
+		loadingScene.goToBoss = true;
+
 	}
 }

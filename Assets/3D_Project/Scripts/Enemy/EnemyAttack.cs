@@ -7,6 +7,7 @@ public class EnemyAttack : MonoBehaviour {
 
 	public GameObject root;
 	private CapsuleCollider collider;
+	GameObject Player;
 	public bool attack = false;
 
 	// アニメーション中一回しかヒットさせないためのbool
@@ -15,6 +16,7 @@ public class EnemyAttack : MonoBehaviour {
 
 	void Start() {
 		collider = GetComponent<CapsuleCollider> ();
+		Player = GameObject.FindGameObjectWithTag ("Player");
 	}
 
 	void Update () {
@@ -28,7 +30,7 @@ public class EnemyAttack : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other) {
-		if (attack) {
+		if (attack && Player.GetComponent<CharaStatus>().dead == false) {
 			// プレイヤーにのみ当たった時(今後設置するオブジェクトのことを考慮して)
 			if (other.gameObject.tag == "Player" && one_hit == false) {
 
