@@ -75,6 +75,7 @@ public class CharaController : MonoBehaviour {
 				// カメラベクトルに入力値を乗算してから正規化
 				Vector3 moveForward = ((cameraForward * inputVertical) + (Camera.main.transform.right * inputHorizontal)).normalized;
 
+
 				if (moveForward != Vector3.zero) {
 					animator.SetBool ("run", true);
 

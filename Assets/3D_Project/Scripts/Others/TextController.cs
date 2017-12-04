@@ -26,9 +26,8 @@ public class TextController : MonoBehaviour {
 	int currentIndex = 0;
 
 	// テキスト表示用真偽値
-	bool showText = true;
-	bool tutorialOfStory = false;
-	bool middleOfStory = false;
+	public bool showText = true;
+	bool tutorialOfStory = true;
 	bool bossOfStory = false;
 	bool clearOfStory = false;
 
@@ -44,9 +43,8 @@ public class TextController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (Input.GetKeyDown ("return") && showText) {
-			
-			TextUpdateTutorial ();
+		if (showText) {
+			TextUpdateMaster ();
 		}
 
 		if (eventsCtr.GetComponent<EventsController> ().isZoom == false) {
@@ -71,19 +69,24 @@ public class TextController : MonoBehaviour {
 			uiText.text = scenarios [currentIndex];
 
 		}
-		currentIndex++;
+
+		if (Input.GetKeyDown ("return")) {
+			currentIndex++;
+		}
 	}
 
 	void TextUpdateMiddle () {
 
 		if (currentIndex > 9) {
 			showText = false;
-			middleOfStory = false;
 			textBox.SetActive (false);
 		} else {
 			uiText.text = scenarios [currentIndex];
 		}
-		currentIndex++;
+
+		if (Input.GetKeyDown ("return")) {
+			currentIndex++;
+		}
 	}
 
 	void TextUpdateBoss () {
@@ -95,7 +98,10 @@ public class TextController : MonoBehaviour {
 		} else {
 			uiText.text = scenarios [currentIndex];
 		}
-		currentIndex++;
+
+		if (Input.GetKeyDown ("return")) {
+			currentIndex++;
+		}
 	}
 
 	void TextUpdateClear () {
@@ -107,7 +113,10 @@ public class TextController : MonoBehaviour {
 		} else {
 			uiText.text = scenarios [currentIndex];
 		}
-		currentIndex++;
+
+		if (Input.GetKeyDown ("return")) {
+			currentIndex++;
+		}
 	}
 
 
@@ -115,14 +124,15 @@ public class TextController : MonoBehaviour {
 	// ------テキスト関数をまとめる関数---------
 	void TextUpdateMaster () {
 		
-		if (middleOfStory) {
+		if (eventsCtr.GetComponent<EventsController>().appearMagicSquare) {
+			TextUpdateMiddle ();
 			
-		} else if (bossOfStory) {
+		} else if (bossOfStory) { // ボスシーン用
 			
 		} else if (clearOfStory) {
 			
 		} else if (tutorialOfStory) {
-			
+			TextUpdateTutorial ();
 		}
 	}
 

@@ -9,9 +9,9 @@ public class EventsController : MonoBehaviour {
 	public bool BossEvent = false;
 	bool GameOver = false;
 	public bool isZoom = true;
-	GameObject textController;
+	GameObject textCtr;
 	public GameObject MagicSquare;
-	bool appearMagicSquare = false;
+	public bool appearMagicSquare = false;
 	public LoadingScene loadingScene;
 	AudioSource warpAudio;
 	bool oneTime;
@@ -20,7 +20,7 @@ public class EventsController : MonoBehaviour {
 	void Start () {
 
 		Player = GameObject.FindGameObjectWithTag ("Player");
-		textController = GameObject.FindGameObjectWithTag ("TextController");
+		textCtr = GameObject.FindGameObjectWithTag ("TextController");
 		warpAudio = GetComponent<AudioSource> ();
 	}
 	
@@ -71,7 +71,7 @@ public class EventsController : MonoBehaviour {
 
 		if (Camera.main.fieldOfView < 34.5f) {
 
-			textController.GetComponent<TextController> ().finishedZoom = true;
+			textCtr.GetComponent<TextController> ().finishedZoom = true;
 			isZoom = false;
 
 		} else if (isZoom){
