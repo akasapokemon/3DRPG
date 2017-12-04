@@ -60,33 +60,30 @@ public class CharaController : MonoBehaviour {
 				child.attack = true;
 				animator.SetTrigger ("attackTrigger");
 			}
+				
+			// キー入力を値として取得
+			inputHorizontal = Input.GetAxisRaw ("Horizontal");
+			inputVertical = Input.GetAxisRaw ("Vertical");
+
+			// Cameraの正面方向をy軸を考慮せず取得
+			Vector3 cameraForward = Vector3.Scale (Camera.main.transform.forward, new Vector3 (1, 0, 1));
+
+			// カメラベクトルに入力値を乗算してから正規化
+			Vector3 moveForward = ((cameraForward * inputVertical) + (Camera.main.transform.right * inputHorizontal)).normalized;
 
 
-			if (Input.GetButton ("Horizontal") || Input.GetButton ("Vertical")) {
+			if (moveForward != Vector3.zero) {
+				animator.SetBool ("run", true);
 
+				// 移動
+				rb.velocity = moveForward * status.speed;
 
-				// キー入力を値として取得
-				inputHorizontal = Input.GetAxisRaw ("Horizontal");
-				inputVertical = Input.GetAxisRaw ("Vertical");
-
-				// Cameraの正面方向をy軸を考慮せず取得
-				Vector3 cameraForward = Vector3.Scale (Camera.main.transform.forward, new Vector3 (1, 0, 1));
-
-				// カメラベクトルに入力値を乗算してから正規化
-				Vector3 moveForward = ((cameraForward * inputVertical) + (Camera.main.transform.right * inputHorizontal)).normalized;
-
-
-				if (moveForward != Vector3.zero) {
-					animator.SetBool ("run", true);
-
-					// 移動
-					rb.velocity = moveForward * status.speed;
-
-					// 方向転換
-					transform.rotation = Quaternion.LookRotation (moveForward);
-				}
+				// 方向転換
+				transform.rotation = Quaternion.LookRotation (moveForward);
 			} else {
+				
 				animator.SetBool ("run", false);
+				// そのまま加速し続けるのでゼロにする
 				rb.velocity = Vector3.zero;
 			}
 		}
