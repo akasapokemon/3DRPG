@@ -173,6 +173,8 @@ public class TextController : MonoBehaviour {
 		}
 	}
 
+
+	// コンテニュー用
 	void FlashContinue () {
 
 		if (appearButton == false) {
@@ -184,4 +186,5 @@ public class TextController : MonoBehaviour {
 		Continue.GetComponent<Text>().color = new Color (249, 255, 0, continueColor);
 		continueColor = 1.0f * Mathf.Sin( counter * 0.1f) / 1.5f;
 	}
+		
 }
